@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference                
+android:title="Группа"
+android:key="sCurrentGroup"
+android:defaultValue="Выберите группу"
+    />    
+    <ListPreference
+                        android:title="Семестр"                    
+                        android:key="sCurrentTerm"
+                        android:defaultValue="1"
+                        android:entries="@array/TermTitles"
+                        android:entryValues="@array/Terms" />
+</PreferenceScreen>

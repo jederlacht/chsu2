@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:padding="3dp" >
+
+    <TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="@string/prompt_group" android:layout_width="fill_parent" android:layout_marginTop="10dip" android:id="@+id/textView1" android:layout_height="wrap_content" android:layout_gravity="top|left"></TextView>
+        <Spinner android:id="@+id/Spinner01" android:prompt="@string/prompt_group" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="left"></Spinner>
+    </TableRow>
+    <TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="@string/prompt_term" android:layout_width="fill_parent" android:layout_marginTop="10dip" android:id="@+id/textView2" android:layout_height="wrap_content" android:layout_gravity="top|left"></TextView>
+        <Spinner android:id="@+id/Spinner02" android:layout_height="wrap_content" android:prompt="@string/prompt_term" android:layout_width="fill_parent" android:layout_gravity="left"></Spinner>
+    </TableRow>
+
+
+    
+
+</TableLayout>
+
+<ExpandableListView
+    android:id="@+id/expandableListView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+</ExpandableListView>
+
+</LinearLayout>

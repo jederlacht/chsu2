@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF"
+    android:orientation="vertical"
+    android:padding="2dp" >
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="top|center"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:src="@drawable/logo" >
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Дата"
+        android:textSize="20sp" >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/textViewWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Неделя"
+        android:textSize="44sp" >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:hapticFeedbackEnabled="true"
+        android:padding="5dp"
+        android:text="@string/current_group"
+        android:textSize="28sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textViewTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:textSize="20sp" >
+
+    </TextView>
+
+    <Button
+        android:id="@+id/buttonOpenTableExams"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="30dp"
+        android:text="Расписание экзаменов"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonOpenTable"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:text="Основное расписание"
+        android:textSize="20sp" />
+
+</LinearLayout>

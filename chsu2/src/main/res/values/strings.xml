@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание ЧГУ</string>
+<string name="prompt_group">Выберите группу</string>
+<string name="current_group">Зайдите в настройки</string>
+<string name="current_term">2</string>
+<string name="prompt_term">Выберите семестр</string>
+<string-array name="term_array">
+    <item>1</item>
+    <item>2</item>
+</string-array>
+<string name="open_table_command">Расписание занятий</string>
+<string name="open_table_exam_command">Расписание экзаменов</string>
+</resources>
