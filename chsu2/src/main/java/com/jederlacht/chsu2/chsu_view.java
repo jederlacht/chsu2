@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -29,8 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-
+import android.widget.SpinnerAdapter;
+import android.widget.ArrayAdapter;
 
 
 public class chsu_view extends Activity {//implements OnTouchListener
@@ -84,7 +86,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
     Date dateCurrentDate;
     EnumType currentTypeView;
     ArrayList<TSubject> listSubjects = new ArrayList<TSubject>();
-
+    OnNavigationListener mOnNavigationListener;
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog spinner;
@@ -262,46 +264,51 @@ public class chsu_view extends Activity {//implements OnTouchListener
         stringCurrentGroup = extra.getString("CURRENT_GROUP");
         stringCurrentTerm = extra.getString("CURRENT_TERM");
         byteCurrentWeek = extra.getByte("CURRENT_WEEK");
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.Modes,
+                android.R.layout.simple_spinner_dropdown_item);
 
+        mOnNavigationListener = new OnNavigationListener() {
+            // Get the same strings provided for the drop-down's ArrayAdapter
+            // String[] strings = getResources().getStringArray(R.array.Modes);
+            @Override
+            public boolean onNavigationItemSelected(int position, long itemId) {
+                SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(chsu_view.this).edit();
+                if (itemId == 0) {
+                    currentTypeView = EnumType.all;
+                    Clear();
+                    ShowData(currentTypeView);
+                } else if (itemId == 1) {
+                    currentTypeView = EnumType.week;
+                    Clear();
+                    ShowData(currentTypeView);
+                } else if (itemId == 2) {
+                    currentTypeView = EnumType.date;
+                    Clear();
+                    ShowData(currentTypeView);
+                } else if (itemId == 3) {
+                    currentTypeView = EnumType.date;
+                    Clear();
+                    ChangeDate(new Date().getTime());
+                    ShowData(currentTypeView);
+                }
+                // Занесение значения режима работы в настройки
+                SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
+                SettingsEditor.commit();
+                return true;
+            }
 
+            ;
+
+        };
+
+        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
         //if (listSubjects.size()==0) 
         new MyTask().execute();
 
 
     }
 
-    @Override
-/*    public boolean onTouch(final View v, final MotionEvent e) {
-
-       // gd.onTouchEvent(e);
-    
-        return true;
-    }
-    
-    private final GestureDetector gd = new GestureDetector(new GestureListener());
-
-    private static final int DISTANCE = 100;
-    private static final int VELOCITY = 200;
-    private class GestureListener extends SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if(e1.getX() - e2.getX() > DISTANCE && Math.abs(velocityX) > VELOCITY) {
-                // Справа налево
-            	ChangeDate(dateCurrentDate.getTime() + MILLISECONDS_PER_DAY);
-    	    	Clear();
-    	    	ShowData(EnumType.date);
-                return false;
-            }  else if (e2.getX() - e1.getX() > DISTANCE && Math.abs(velocityX) > VELOCITY) {
-                // Слева направо
-            	ChangeDate(dateCurrentDate.getTime() - MILLISECONDS_PER_DAY);
-    	    	Clear();
-    	    	ShowData(EnumType.date);
-                return false;
-            }
-            return false;
-        }
-    }
-*/
 
 
     // Создаем меню

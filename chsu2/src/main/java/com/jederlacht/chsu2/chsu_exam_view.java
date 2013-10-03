@@ -23,10 +23,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 
-public class chsu_exam_view extends  ActionBarActivity {
+
+public class chsu_exam_view extends Activity {
 
 
     // ќбъ€вление класса предмета
@@ -218,8 +217,8 @@ public class chsu_exam_view extends  ActionBarActivity {
         setContentView(R.layout.scrolltable);
 
         Bundle extra = getIntent().getExtras();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         stringCurrentGroup = extra.getString("CURRENT_GROUP");
         stringCurrentTerm = extra.getString("CURRENT_TERM");
 

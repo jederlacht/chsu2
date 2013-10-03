@@ -280,15 +280,13 @@ public class chsu_main extends Activity {
 
     // Создаем меню
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem;
-        menuItem = menu.add(Menu.NONE, 0, Menu.NONE, "Настройки");
-        menuItem.setIcon(android.R.drawable.ic_menu_set_as);
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     // Выбор пункта меню
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == 0) {
+        if (item.getItemId() == R.id.item1) {
             // По нажатию кнопки открываем настройки
         	/*Intent intent = new Intent(chsu_main.this, chsu_settings.class);
         	intent.putStringArrayListExtra("CURRENT_GROUPS", arrayStringCurrentGroups);
