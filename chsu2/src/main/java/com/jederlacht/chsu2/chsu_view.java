@@ -256,6 +256,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         // Читаем настройки запомненные
         SharedPreferences SavedSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         ChangeDate(SavedSettings.getLong("longCurrentDate", new Date().getTime()));
         currentTypeView = EnumType.values()[SavedSettings.getInt("TypeView", 0)];
 
@@ -264,7 +265,8 @@ public class chsu_view extends Activity {//implements OnTouchListener
         stringCurrentGroup = extra.getString("CURRENT_GROUP");
         stringCurrentTerm = extra.getString("CURRENT_TERM");
         byteCurrentWeek = extra.getByte("CURRENT_WEEK");
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        final ActionBar actionBar =  getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.Modes,
                 android.R.layout.simple_spinner_dropdown_item);
 
@@ -273,28 +275,29 @@ public class chsu_view extends Activity {//implements OnTouchListener
             // String[] strings = getResources().getStringArray(R.array.Modes);
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(chsu_view.this).edit();
-                if (itemId == 0) {
+
+
+                if (position == 0) {
                     currentTypeView = EnumType.all;
                     Clear();
                     ShowData(currentTypeView);
-                } else if (itemId == 1) {
+                } else if (position == 1) {
                     currentTypeView = EnumType.week;
                     Clear();
                     ShowData(currentTypeView);
-                } else if (itemId == 2) {
+                } else if (position == 2) {
                     currentTypeView = EnumType.date;
                     Clear();
                     ShowData(currentTypeView);
-                } else if (itemId == 3) {
+                } else if (position == 3) {
                     currentTypeView = EnumType.date;
                     Clear();
                     ChangeDate(new Date().getTime());
                     ShowData(currentTypeView);
                 }
                 // Занесение значения режима работы в настройки
-                SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
-                SettingsEditor.commit();
+                //SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
+                //SettingsEditor.commit();
                 return true;
             }
 
@@ -302,7 +305,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         };
 
-        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
         //if (listSubjects.size()==0) 
         new MyTask().execute();
 
