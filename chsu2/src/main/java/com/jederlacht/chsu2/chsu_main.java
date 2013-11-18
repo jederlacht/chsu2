@@ -27,6 +27,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
+
 
 
 
@@ -51,7 +57,7 @@ public class chsu_main extends Activity {
     //private ProgressDialog spinner;
     AlertDialog.Builder ad;
     Context context;
-
+    Document doc;
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog spinner;
@@ -81,7 +87,12 @@ public class chsu_main extends Activity {
 
 
             try {
-
+                URL url = new URL("http://ya.ru");
+               doc=Jsoup.parse (url,1000);
+                //Element e = doc.getElementsByAttribute("font[size$=\"5\"").first();
+                //week=e.text();
+                week="7";
+/*
                 // Указываем адрес
                 URL url = new URL("http://rasp.chsu.ru/_student.php");
                 // Устанавливаем соединение и параметры
@@ -100,7 +111,7 @@ public class chsu_main extends Activity {
                 // Заполняем переменную контентом
                 while ((InputLine = BufferReader.readLine()) != null) {
 
-                    // Проверяем, нет ли элемента строки в строке документа исходного
+/*                    // Проверяем, нет ли элемента строки в строке документа исходного
                     if (InputLine.contains("учебная неделя")) {
 
                         Pattern pattern = Pattern.compile(">(\\d+)<");
@@ -150,15 +161,17 @@ public class chsu_main extends Activity {
 
                     }
 
-                }
+                  }*/
 
             } catch (Exception e) {
+                spinner.setMessage(Log.getStackTraceString(e));
                 Log.e("GetDataStart", Log.getStackTraceString(e));
             } finally {
                 if (BufferReader != null) {
                     try {
                         BufferReader.close();
                     } catch (IOException e) {
+                        spinner.setMessage(Log.getStackTraceString(e));
                         Log.e("GetSite", Log.getStackTraceString(e));
                     }
                 }
