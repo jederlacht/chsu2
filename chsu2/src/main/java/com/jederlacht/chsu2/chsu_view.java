@@ -279,19 +279,19 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
                 if (position == 0) {
                     currentTypeView = EnumType.all;
-                    Clear();
+                    //Clear();
                     ShowData(currentTypeView);
                 } else if (position == 1) {
                     currentTypeView = EnumType.week;
-                    Clear();
+                    //Clear();
                     ShowData(currentTypeView);
                 } else if (position == 2) {
                     currentTypeView = EnumType.date;
-                    Clear();
+                    //Clear();
                     ShowData(currentTypeView);
                 } else if (position == 3) {
                     currentTypeView = EnumType.date;
-                    Clear();
+                    //Clear();
                     ChangeDate(new Date().getTime());
                     ShowData(currentTypeView);
                 }
