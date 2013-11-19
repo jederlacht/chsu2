@@ -87,6 +87,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
     EnumType currentTypeView;
     ArrayList<TSubject> listSubjects = new ArrayList<TSubject>();
     OnNavigationListener mOnNavigationListener;
+    ActionBar actionBar;
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog spinner;
@@ -265,7 +266,8 @@ public class chsu_view extends Activity {//implements OnTouchListener
         stringCurrentGroup = extra.getString("CURRENT_GROUP");
         stringCurrentTerm = extra.getString("CURRENT_TERM");
         byteCurrentWeek = extra.getByte("CURRENT_WEEK");
-        final ActionBar actionBar =  getActionBar();
+        actionBar = getActionBar();
+       /* final ActionBar actionBar =  getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.Modes,
                 android.R.layout.simple_spinner_dropdown_item);
@@ -305,7 +307,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         };
 
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);*/
         //if (listSubjects.size()==0) 
         new MyTask().execute();
 
@@ -330,6 +332,10 @@ public class chsu_view extends Activity {//implements OnTouchListener
         menuItem = menu.add(Menu.NONE, 3, Menu.NONE, "Сегодня");
         menuItem.setIcon(android.R.drawable.ic_menu_my_calendar);
 
+
+            getMenuInflater().inflate(R.menu.main, menu);
+
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -341,18 +347,23 @@ public class chsu_view extends Activity {//implements OnTouchListener
         if (item.getItemId() == 0) {
             currentTypeView = EnumType.all;
             Clear();
+            actionBar.setTitle("Расписание");
             ShowData(currentTypeView);
+
         } else if (item.getItemId() == 1) {
             currentTypeView = EnumType.week;
             Clear();
+            actionBar.setTitle("Расписание на неделю");
             ShowData(currentTypeView);
         } else if (item.getItemId() == 2) {
             currentTypeView = EnumType.date;
             Clear();
+            actionBar.setTitle("Расписание на день");
             ShowData(currentTypeView);
         } else if (item.getItemId() == 3) {
             currentTypeView = EnumType.date;
             Clear();
+            actionBar.setTitle("Расписание на сегодня");
             ChangeDate(new Date().getTime());
             ShowData(currentTypeView);
         }
