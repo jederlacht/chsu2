@@ -27,11 +27,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
 
 
 
@@ -39,7 +34,7 @@ import org.jsoup.select.Elements;
 
 public class chsu_main extends Activity {
 
-    // Объявляем переменные
+    // РћР±СЉСЏРІР»СЏРµРј РїРµСЂРµРјРµРЅРЅС‹Рµ
     WebView mWebView;
     Button BtnOpenTable;
     Button BtnOpenTableExams;
@@ -57,7 +52,7 @@ public class chsu_main extends Activity {
     //private ProgressDialog spinner;
     AlertDialog.Builder ad;
     Context context;
-    Document doc;
+
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog spinner;
@@ -65,11 +60,11 @@ public class chsu_main extends Activity {
         String week = null;
         @Override
         protected void onPreExecute() {
-            // Вначале мы покажем пользователю ProgressDialog
-            // чтобы он понимал что началась загрузка
-            // этот метод выполняется в UI потоке
+            // Р’РЅР°С‡Р°Р»Рµ РјС‹ РїРѕРєР°Р¶РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ ProgressDialog
+            // С‡С‚РѕР±С‹ РѕРЅ РїРѕРЅРёРјР°Р» С‡С‚Рѕ РЅР°С‡Р°Р»Р°СЃСЊ Р·Р°РіСЂСѓР·РєР°
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             spinner = new ProgressDialog(chsu_main.this);
-            spinner.setMessage("Идет загрузка...");
+            spinner.setMessage("РРґРµС‚ Р·Р°РіСЂСѓР·РєР°...");
             spinner.show();
 
 
@@ -79,40 +74,39 @@ public class chsu_main extends Activity {
         protected Void doInBackground(Void... text) {
 
             //GetDataStart();
-            // тут мы делаем основную работу по загрузке данных
-            // этот метод выполяется в другом потоке
-            // Объявляем соединение и буфер для данных
+            // С‚СѓС‚ РјС‹ РґРµР»Р°РµРј РѕСЃРЅРѕРІРЅСѓСЋ СЂР°Р±РѕС‚Сѓ РїРѕ Р·Р°РіСЂСѓР·РєРµ РґР°РЅРЅС‹С…
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»СЏРµС‚СЃСЏ РІ РґСЂСѓРіРѕРј РїРѕС‚РѕРєРµ
+            // РћР±СЉСЏРІР»СЏРµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё Р±СѓС„РµСЂ РґР»СЏ РґР°РЅРЅС‹С…
             HttpURLConnection UrlConnection = null;
             BufferedReader BufferReader = null;
 
 
             try {
-                URL url = new URL("http://ya.ru");
-               doc=Jsoup.parse (url,1000);
+
                 //Element e = doc.getElementsByAttribute("font[size$=\"5\"").first();
                 //week=e.text();
-                week="7";
-/*
-                // Указываем адрес
+
+
+                // РЈРєР°Р·С‹РІР°РµРј Р°РґСЂРµСЃ
                 URL url = new URL("http://rasp.chsu.ru/_student.php");
-                // Устанавливаем соединение и параметры
+                // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё РїР°СЂР°РјРµС‚СЂС‹
                 UrlConnection = (HttpURLConnection) url.openConnection();
                 UrlConnection.setRequestProperty("METHOD", "POST");
                 UrlConnection.setDoInput(true);
                 UrlConnection.setDoOutput(true);
 
 
-                // Получаем запрошенную страницу в буфер
+                // РџРѕР»СѓС‡Р°РµРј Р·Р°РїСЂРѕС€РµРЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІ Р±СѓС„РµСЂ
                 BufferReader = new BufferedReader(new InputStreamReader(UrlConnection.getInputStream(),
                         "windows-1251"), 4096);
 
-                // Создаем строку для контента
+                // РЎРѕР·РґР°РµРј СЃС‚СЂРѕРєСѓ РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
                 String InputLine = "";
-                // Заполняем переменную контентом
+                // Р—Р°РїРѕР»РЅСЏРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РєРѕРЅС‚РµРЅС‚РѕРј
                 while ((InputLine = BufferReader.readLine()) != null) {
 
-/*                    // Проверяем, нет ли элемента строки в строке документа исходного
-                    if (InputLine.contains("учебная неделя")) {
+                    // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
+                    if (InputLine.contains("СѓС‡РµР±РЅР°СЏ РЅРµРґРµР»СЏ")) {
 
                         Pattern pattern = Pattern.compile(">(\\d+)<");
                         Matcher matcher = pattern.matcher(InputLine);
@@ -121,14 +115,14 @@ public class chsu_main extends Activity {
                         {
                             week = matcher.group(1);
                             //StringBuilder string = new StringBuilder(week);
-                            //string.append(" неделя");
+                            //string.append(" РЅРµРґРµР»СЏ");
 
 
                         }
                     }
 
-                    // Проверяем, нет ли элемента строки в строке документа исходного
-                    if (InputLine.contains("Сегодня")) {
+                    // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
+                    if (InputLine.contains("РЎРµРіРѕРґРЅСЏ")) {
 
                         Pattern pattern = Pattern.compile("(\\d{2}.\\d{2}.\\d{4})");
                         Matcher matcher = pattern.matcher(InputLine);
@@ -140,7 +134,7 @@ public class chsu_main extends Activity {
                         }
                     }
 
-                    // Составляем список групп
+                    // РЎРѕСЃС‚Р°РІР»СЏРµРј СЃРїРёСЃРѕРє РіСЂСѓРїРї
                     if (InputLine.contains("option")) {
                         Pattern pattern = Pattern.compile("value=\"(\\w+\\(?\\w?\\)?\\w?-\\w+)\"");
                         Matcher matcher = pattern.matcher(InputLine);
@@ -161,7 +155,7 @@ public class chsu_main extends Activity {
 
                     }
 
-                  }*/
+                  }
 
             } catch (Exception e) {
                 spinner.setMessage(Log.getStackTraceString(e));
@@ -175,7 +169,7 @@ public class chsu_main extends Activity {
                         Log.e("GetSite", Log.getStackTraceString(e));
                     }
                 }
-                // Разрываем подключение
+                // Р Р°Р·СЂС‹РІР°РµРј РїРѕРґРєР»СЋС‡РµРЅРёРµ
                 if (UrlConnection != null) {
                     ((HttpURLConnection)UrlConnection).disconnect();
                 }
@@ -189,10 +183,10 @@ public class chsu_main extends Activity {
             textCurrentDate.setText(day);
             stringCurrentDate = day;
 
-            textCurrentWeek.setText(week + " неделя");
+            textCurrentWeek.setText(week + " РЅРµРґРµР»СЏ");
             byteCurrentWeek = Byte.parseByte(week);
-            // Загрузка закончена. Закроем ProgressDialog.
-            // этот метод выполняется в UI потоке
+            // Р—Р°РіСЂСѓР·РєР° Р·Р°РєРѕРЅС‡РµРЅР°. Р—Р°РєСЂРѕРµРј ProgressDialog.
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             spinner.dismiss();
         }
 
@@ -209,32 +203,32 @@ public class chsu_main extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Открываем лэйаут по умолчанию
+        // РћС‚РєСЂС‹РІР°РµРј Р»СЌР№Р°СѓС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
 
-        // Инициализируем переменную изменения настроек
+        // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РёР·РјРµРЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє
         SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
 
-        // Находим кнопку
+        // РќР°С…РѕРґРёРј РєРЅРѕРїРєСѓ
         BtnOpenTable = (Button)findViewById(R.id.buttonOpenTable);
         BtnOpenTable.setText(R.string.open_table_command);
         BtnOpenTableExams = (Button)findViewById(R.id.buttonOpenTableExams);
         BtnOpenTableExams.setText(R.string.open_table_exam_command);
 
-        // Находим поля, чтобы потом заполнять их
+        // РќР°С…РѕРґРёРј РїРѕР»СЏ, С‡С‚РѕР±С‹ РїРѕС‚РѕРј Р·Р°РїРѕР»РЅСЏС‚СЊ РёС…
         textCurrentGroup = (TextView)findViewById(R.id.TextViewGroup);
         textCurrentTerm = (TextView)findViewById(R.id.textViewTerm);
         textCurrentDate = (TextView)findViewById(R.id.textViewDate);
         textCurrentWeek = (TextView)findViewById(R.id.textViewWeek);
 
         context = chsu_main.this;
-        //GetDataStart();// Задержка!
+        //GetDataStart();// Р—Р°РґРµСЂР¶РєР°!
         if (isOnline()){
             new MyTask().execute();
         }
         else {
-            CharSequence text = "Нет соединения с сетью!!";
+            CharSequence text = "РќРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµС‚СЊСЋ!!";
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -244,7 +238,7 @@ public class chsu_main extends Activity {
         }
 
 
-        // Нажатие на кнопку "Основное расписание"
+        // РќР°Р¶Р°С‚РёРµ РЅР° РєРЅРѕРїРєСѓ "РћСЃРЅРѕРІРЅРѕРµ СЂР°СЃРїРёСЃР°РЅРёРµ"
         BtnOpenTable.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
@@ -257,7 +251,7 @@ public class chsu_main extends Activity {
             }
         });
 
-        // Нажатие на кнопку "Расписание экзаменов"
+        // РќР°Р¶Р°С‚РёРµ РЅР° РєРЅРѕРїРєСѓ "Р Р°СЃРїРёСЃР°РЅРёРµ СЌРєР·Р°РјРµРЅРѕРІ"
         BtnOpenTableExams.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
@@ -277,30 +271,30 @@ public class chsu_main extends Activity {
         super.onResume();
 
 
-        // Читаем настройки запомненные
+        // Р§РёС‚Р°РµРј РЅР°СЃС‚СЂРѕР№РєРё Р·Р°РїРѕРјРЅРµРЅРЅС‹Рµ
         SharedPreferences SavedSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        stringCurrentGroup = SavedSettings.getString("sCurrentGroup", "Выберите в настройках");
-        stringCurrentTerm = SavedSettings.getString("sCurrentTerm", "группу и ");
+        stringCurrentGroup = SavedSettings.getString("sCurrentGroup", "Р’С‹Р±РµСЂРёС‚Рµ РІ РЅР°СЃС‚СЂРѕР№РєР°С…");
+        stringCurrentTerm = SavedSettings.getString("sCurrentTerm", "РіСЂСѓРїРїСѓ Рё ");
 
-        // Устанавливаем значения в текстовые поля
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РІ С‚РµРєСЃС‚РѕРІС‹Рµ РїРѕР»СЏ
 
         textCurrentGroup.setText(stringCurrentGroup);
         StringBuilder string = new StringBuilder(stringCurrentTerm);
-        string.append(" семестр");
+        string.append(" СЃРµРјРµСЃС‚СЂ");
         textCurrentTerm.setText(string);
     }
 
 
-    // Создаем меню
+    // РЎРѕР·РґР°РµРј РјРµРЅСЋ
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    // Выбор пункта меню
+    // Р’С‹Р±РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item1) {
-            // По нажатию кнопки открываем настройки
+            // РџРѕ РЅР°Р¶Р°С‚РёСЋ РєРЅРѕРїРєРё РѕС‚РєСЂС‹РІР°РµРј РЅР°СЃС‚СЂРѕР№РєРё
         	/*Intent intent = new Intent(chsu_main.this, chsu_settings.class);
         	intent.putStringArrayListExtra("CURRENT_GROUPS", arrayStringCurrentGroups);
         	startActivity(intent);
@@ -317,34 +311,34 @@ public class chsu_main extends Activity {
 
 
 
-    // Получаем общие данные
+    // РџРѕР»СѓС‡Р°РµРј РѕР±С‰РёРµ РґР°РЅРЅС‹Рµ
     public  void GetDataStart() {
-        // Объявляем соединение и буфер для данных
+        // РћР±СЉСЏРІР»СЏРµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё Р±СѓС„РµСЂ РґР»СЏ РґР°РЅРЅС‹С…
         HttpURLConnection UrlConnection = null;
         BufferedReader BufferReader = null;
 
         try {
 
-            // Указываем адрес
+            // РЈРєР°Р·С‹РІР°РµРј Р°РґСЂРµСЃ
             URL url = new URL("http://rasp.chsu.ru/_student.php");
-            // Устанавливаем соединение и параметры
+            // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё РїР°СЂР°РјРµС‚СЂС‹
             UrlConnection = (HttpURLConnection) url.openConnection();
             UrlConnection.setRequestProperty("METHOD", "POST");
             UrlConnection.setDoInput(true);
             UrlConnection.setDoOutput(true);
 
 
-            // Получаем запрошенную страницу в буфер
+            // РџРѕР»СѓС‡Р°РµРј Р·Р°РїСЂРѕС€РµРЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІ Р±СѓС„РµСЂ
             BufferReader = new BufferedReader(new InputStreamReader(UrlConnection.getInputStream(),
                     "windows-1251"), 4096);
 
-            // Создаем строку для контента
+            // РЎРѕР·РґР°РµРј СЃС‚СЂРѕРєСѓ РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
             String InputLine = "";
-            // Заполняем переменную контентом
+            // Р—Р°РїРѕР»РЅСЏРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РєРѕРЅС‚РµРЅС‚РѕРј
             while ((InputLine = BufferReader.readLine()) != null) {
 
-                // Проверяем, нет ли элемента строки в строке документа исходного
-                if (InputLine.contains("учебная неделя")) {
+                // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
+                if (InputLine.contains("СѓС‡РµР±РЅР°СЏ РЅРµРґРµР»СЏ")) {
 
                     Pattern pattern = Pattern.compile(">(\\d+)<");
                     Matcher matcher = pattern.matcher(InputLine);
@@ -353,15 +347,15 @@ public class chsu_main extends Activity {
                     {
                         week = matcher.group(1);
                         StringBuilder string = new StringBuilder(week);
-                        string.append(" неделя");
+                        string.append(" РЅРµРґРµР»СЏ");
                         textCurrentWeek.setText(string);
                         byteCurrentWeek = Byte.parseByte(week);
 
                     }
                 }
 
-                // Проверяем, нет ли элемента строки в строке документа исходного
-                if (InputLine.contains("Сегодня")) {
+                // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
+                if (InputLine.contains("РЎРµРіРѕРґРЅСЏ")) {
 
                     Pattern pattern = Pattern.compile("(\\d{2}.\\d{2}.\\d{4})");
                     Matcher matcher = pattern.matcher(InputLine);
@@ -374,7 +368,7 @@ public class chsu_main extends Activity {
                     }
                 }
 
-                // Составляем список групп
+                // РЎРѕСЃС‚Р°РІР»СЏРµРј СЃРїРёСЃРѕРє РіСЂСѓРїРї
                 if (InputLine.contains("option")) {
                     Pattern pattern = Pattern.compile("value=\"(\\w+-\\w+)\"");
                     Matcher matcher = pattern.matcher(InputLine);
@@ -399,7 +393,7 @@ public class chsu_main extends Activity {
                     Log.e("GetSite", Log.getStackTraceString(e));
                 }
             }
-            // Разрываем подключение
+            // Р Р°Р·СЂС‹РІР°РµРј РїРѕРґРєР»СЋС‡РµРЅРёРµ
             if (UrlConnection != null) {
                 ((HttpURLConnection)UrlConnection).disconnect();
             }

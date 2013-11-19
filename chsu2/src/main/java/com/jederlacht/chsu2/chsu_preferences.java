@@ -22,16 +22,16 @@ public class chsu_preferences extends PreferenceActivity implements OnSharedPref
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        // Читаем настройки запомненные
+        // Р§РёС‚Р°РµРј РЅР°СЃС‚СЂРѕР№РєРё Р·Р°РїРѕРјРЅРµРЅРЅС‹Рµ
         SharedPreferences SavedSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        stringCurrentGroup = SavedSettings.getString("sCurrentGroup", "1СПО-21");
+        stringCurrentGroup = SavedSettings.getString("sCurrentGroup", "1РЎРџРћ-21");
         stringCurrentTerm = SavedSettings.getString("sCurrentTerm", "1");
 
         Bundle extra = getIntent().getExtras();
         arrayStringCurrentGroups = extra.getStringArrayList("CURRENT_GROUPS");
 
         ListPreference termPref = (ListPreference) findPreference("sCurrentTerm");
-        termPref.setSummary(stringCurrentTerm + " семестр");
+        termPref.setSummary(stringCurrentTerm + " СЃРµРјРµСЃС‚СЂ");
         ListPreference groupPref = (ListPreference) findPreference("sCurrentGroup");
         final CharSequence[] cs = arrayStringCurrentGroups.toArray(new CharSequence[arrayStringCurrentGroups.size()]);
         groupPref.setEntries(cs);
@@ -59,7 +59,7 @@ public class chsu_preferences extends PreferenceActivity implements OnSharedPref
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("sCurrentTerm") || key.equals("sCurrentGroup")) {
             Preference connectionPref = findPreference(key);
-            // Обновляем вывыод текущего значения
+            // РћР±РЅРѕРІР»СЏРµРј РІС‹РІС‹РѕРґ С‚РµРєСѓС‰РµРіРѕ Р·РЅР°С‡РµРЅРёСЏ
             connectionPref.setSummary(sharedPreferences.getString(key, ""));
         }
     }

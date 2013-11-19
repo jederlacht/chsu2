@@ -40,24 +40,24 @@ public class chsu_view extends Activity {//implements OnTouchListener
     static final long MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
     static final long MILLISECONDS_PER_WEEK = 7 * MILLISECONDS_PER_DAY;
 
-    // Перечисление типов показа расписания
+    // РџРµСЂРµС‡РёСЃР»РµРЅРёРµ С‚РёРїРѕРІ РїРѕРєР°Р·Р° СЂР°СЃРїРёСЃР°РЅРёСЏ
     enum EnumType {
         all, week, date
     }
 
     ;
 
-    // Массив дней недели
-    String stringsDaysOfWeek[] = {"воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"};
+    // РњР°СЃСЃРёРІ РґРЅРµР№ РЅРµРґРµР»Рё
+    String stringsDaysOfWeek[] = {"РІРѕСЃРєСЂРµСЃРµРЅСЊРµ", "РїРѕРЅРµРґРµР»СЊРЅРёРє", "РІС‚РѕСЂРЅРёРє", "СЃСЂРµРґР°", "С‡РµС‚РІРµСЂРі", "РїСЏС‚РЅРёС†Р°", "СЃСѓР±Р±РѕС‚Р°"};
 
-    // Перечисление типов недель
+    // РџРµСЂРµС‡РёСЃР»РµРЅРёРµ С‚РёРїРѕРІ РЅРµРґРµР»СЊ
     enum EnumWeekType {
         even, noteven, every
     }
 
     ;
 
-    // Объявление класса предмета
+    // РћР±СЉСЏРІР»РµРЅРёРµ РєР»Р°СЃСЃР° РїСЂРµРґРјРµС‚Р°
     public class TSubject {
         public String stringDayOfWeek;
         public String stringTime;
@@ -93,11 +93,11 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         @Override
         protected void onPreExecute() {
-            // Вначале мы покажем пользователю ProgressDialog
-            // чтобы он понимал что началась загрузка
-            // этот метод выполняется в UI потоке
+            // Р’РЅР°С‡Р°Р»Рµ РјС‹ РїРѕРєР°Р¶РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ ProgressDialog
+            // С‡С‚РѕР±С‹ РѕРЅ РїРѕРЅРёРјР°Р» С‡С‚Рѕ РЅР°С‡Р°Р»Р°СЃСЊ Р·Р°РіСЂСѓР·РєР°
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             spinner = new ProgressDialog(chsu_view.this);
-            spinner.setMessage("Загрузка расписания...");
+            spinner.setMessage("Р—Р°РіСЂСѓР·РєР° СЂР°СЃРїРёСЃР°РЅРёСЏ...");
             spinner.show();
 
 
@@ -106,43 +106,43 @@ public class chsu_view extends Activity {//implements OnTouchListener
         @Override
         protected Void doInBackground(Void... text) {
 
-            // Объявляем соединение и буфер для данных
+            // РћР±СЉСЏРІР»СЏРµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё Р±СѓС„РµСЂ РґР»СЏ РґР°РЅРЅС‹С…
             HttpURLConnection UrlConnection = null;
             BufferedReader BufferReader = null;
             try {
-                // Указываем адрес
+                // РЈРєР°Р·С‹РІР°РµРј Р°РґСЂРµСЃ
                 URL url = new URL("http://rasp.chsu.ru/_student.php");
-                // Устанавливаем соединение и параметры
+                // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё РїР°СЂР°РјРµС‚СЂС‹
                 UrlConnection = (HttpURLConnection) url.openConnection();
                 UrlConnection.setRequestProperty("METHOD", "POST");
                 UrlConnection.setDoInput(true);
                 UrlConnection.setDoOutput(true);
 
-                // Устанавливаем переменную с передаваемыми параметрами
+                // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ СЃ РїРµСЂРµРґР°РІР°РµРјС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
                 StringBuilder ContentParametres = new StringBuilder();
                 ContentParametres.append("gr=").append(stringCurrentGroup);
                 ContentParametres.append("&ss=").append(stringCurrentTerm);
-                ContentParametres.append("&mode=").append("Расписание занятий");
+                ContentParametres.append("&mode=").append("Р Р°СЃРїРёСЃР°РЅРёРµ Р·Р°РЅСЏС‚РёР№");
 
-                // Добавляем параметры к исходящему потоку
+                // Р”РѕР±Р°РІР»СЏРµРј РїР°СЂР°РјРµС‚СЂС‹ Рє РёСЃС…РѕРґСЏС‰РµРјСѓ РїРѕС‚РѕРєСѓ
                 OutputStream OutputStreamParam = UrlConnection.getOutputStream();
                 OutputStreamParam.write(ContentParametres.toString().getBytes("CP1251"));
                 OutputStreamParam.close();
 
 
-                // Получаем запрошенную страницу в буфер
+                // РџРѕР»СѓС‡Р°РµРј Р·Р°РїСЂРѕС€РµРЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІ Р±СѓС„РµСЂ
                 BufferReader = new BufferedReader(new InputStreamReader(UrlConnection.getInputStream(),
                         "windows-1251"), 4096);
 
-                // Создаем строку для контента
+                // РЎРѕР·РґР°РµРј СЃС‚СЂРѕРєСѓ РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
                 String InputLine = "";
 
 
                 while ((InputLine = BufferReader.readLine()) != null) {
-                    // Проверяем, нет ли элемента строки в строке документа исходного
+                    // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
                     if (InputLine.contains("bgcolor=#ddddee>&nbsp;")) {
 
-                        // Создаем объект предмета и заполняем его поля
+                        // РЎРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РїСЂРµРґРјРµС‚Р° Рё Р·Р°РїРѕР»РЅСЏРµРј РµРіРѕ РїРѕР»СЏ
                         TSubject subject = new TSubject();
 
                         Pattern pattern = Pattern.compile("&nbsp;(\\w+)&nbsp;");
@@ -182,9 +182,9 @@ public class chsu_view extends Activity {//implements OnTouchListener
                         matcher = pattern.matcher(InputLine);
                         if (matcher.find()) {
                             String typeWeek = matcher.group(1);
-                            if (typeWeek.equals("чет")) {
+                            if (typeWeek.equals("С‡РµС‚")) {
                                 subject.weekType = EnumWeekType.even;
-                            } else if (typeWeek.equals("нечет")) {
+                            } else if (typeWeek.equals("РЅРµС‡РµС‚")) {
                                 subject.weekType = EnumWeekType.noteven;
                             } else
                                 subject.weekType = EnumWeekType.every;
@@ -219,7 +219,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                         Log.e("GetSite", Log.getStackTraceString(e));
                     }
                 }
-                // Разрываем подключение
+                // Р Р°Р·СЂС‹РІР°РµРј РїРѕРґРєР»СЋС‡РµРЅРёРµ
                 if (UrlConnection != null) {
                     ((HttpURLConnection) UrlConnection).disconnect();
                 }
@@ -229,8 +229,8 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         @Override
         protected void onPostExecute(Void result) {
-            // Загрузка закончена. Закроем ProgressDialog.
-            // этот метод выполняется в UI потоке
+            // Р—Р°РіСЂСѓР·РєР° Р·Р°РєРѕРЅС‡РµРЅР°. Р—Р°РєСЂРѕРµРј ProgressDialog.
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             spinner.dismiss();
             ShowData(currentTypeView);
         }
@@ -254,7 +254,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         //setContentView(R.layout.scrolltable);
 
-        // Читаем настройки запомненные
+        // Р§РёС‚Р°РµРј РЅР°СЃС‚СЂРѕР№РєРё Р·Р°РїРѕРјРЅРµРЅРЅС‹Рµ
         SharedPreferences SavedSettings = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         ChangeDate(SavedSettings.getLong("longCurrentDate", new Date().getTime()));
@@ -295,7 +295,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                     ChangeDate(new Date().getTime());
                     ShowData(currentTypeView);
                 }
-                // Занесение значения режима работы в настройки
+                // Р—Р°РЅРµСЃРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЂРµР¶РёРјР° СЂР°Р±РѕС‚С‹ РІ РЅР°СЃС‚СЂРѕР№РєРё
                 //SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
                 //SettingsEditor.commit();
                 return true;
@@ -314,29 +314,29 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
 
 
-    // Создаем меню
+    // РЎРѕР·РґР°РµРј РјРµРЅСЋ
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem menuItem;
-        // Кнопка показа всего расписания
-        menuItem = menu.add(Menu.NONE, 0, Menu.NONE, "Все");
+        // РљРЅРѕРїРєР° РїРѕРєР°Р·Р° РІСЃРµРіРѕ СЂР°СЃРїРёСЃР°РЅРёСЏ
+        menuItem = menu.add(Menu.NONE, 0, Menu.NONE, "Р’СЃРµ");
         menuItem.setIcon(android.R.drawable.ic_menu_today);
-        // Кнопка показа расписания на неделю
-        menuItem = menu.add(Menu.NONE, 1, Menu.NONE, "Неделя");
+        // РљРЅРѕРїРєР° РїРѕРєР°Р·Р° СЂР°СЃРїРёСЃР°РЅРёСЏ РЅР° РЅРµРґРµР»СЋ
+        menuItem = menu.add(Menu.NONE, 1, Menu.NONE, "РќРµРґРµР»СЏ");
         menuItem.setIcon(android.R.drawable.ic_menu_week);
-        // Кнопка показа расписания на день
-        menuItem = menu.add(Menu.NONE, 2, Menu.NONE, "День");
+        // РљРЅРѕРїРєР° РїРѕРєР°Р·Р° СЂР°СЃРїРёСЃР°РЅРёСЏ РЅР° РґРµРЅСЊ
+        menuItem = menu.add(Menu.NONE, 2, Menu.NONE, "Р”РµРЅСЊ");
         menuItem.setIcon(android.R.drawable.ic_menu_day);
-        // Кнопка показа расписания на день
-        menuItem = menu.add(Menu.NONE, 3, Menu.NONE, "Сегодня");
+        // РљРЅРѕРїРєР° РїРѕРєР°Р·Р° СЂР°СЃРїРёСЃР°РЅРёСЏ РЅР° РґРµРЅСЊ
+        menuItem = menu.add(Menu.NONE, 3, Menu.NONE, "РЎРµРіРѕРґРЅСЏ");
         menuItem.setIcon(android.R.drawable.ic_menu_my_calendar);
 
         return super.onCreateOptionsMenu(menu);
     }
 
 
-    // Выбор пункта меню
+    // Р’С‹Р±РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Инициализируем переменную изменения настроек
+        // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РёР·РјРµРЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє
         SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         if (item.getItemId() == 0) {
             currentTypeView = EnumType.all;
@@ -356,21 +356,21 @@ public class chsu_view extends Activity {//implements OnTouchListener
             ChangeDate(new Date().getTime());
             ShowData(currentTypeView);
         }
-        // Занесение значения режима работы в настройки
+        // Р—Р°РЅРµСЃРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЂРµР¶РёРјР° СЂР°Р±РѕС‚С‹ РІ РЅР°СЃС‚СЂРѕР№РєРё
         SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
         SettingsEditor.commit();
         return super.onOptionsItemSelected(item);
     }
 
 
-    // Показываем предмет
+    // РџРѕРєР°Р·С‹РІР°РµРј РїСЂРµРґРјРµС‚
     public void ShowSubject(TSubject subject) {
 
 
-        // Находим слой таблицы для работы с ним
+        // РќР°С…РѕРґРёРј СЃР»РѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutStudent);
 //        tableLayout.setOnTouchListener(this) ;        
-        // Выводим название предмета
+        // Р’С‹РІРѕРґРёРј РЅР°Р·РІР°РЅРёРµ РїСЂРµРґРјРµС‚Р°
         TableRow tableRowSubject = new TableRow(this);
         tableRowSubject.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewSubject = new TextView(this);
@@ -379,24 +379,24 @@ public class chsu_view extends Activity {//implements OnTouchListener
         tableLayout.addView(tableRowSubject);
 
 
-        // Выводим недели, их тип и время
+        // Р’С‹РІРѕРґРёРј РЅРµРґРµР»Рё, РёС… С‚РёРї Рё РІСЂРµРјСЏ
         TableRow tableRowTimeSubject = new TableRow(this);
         tableRowTimeSubject.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewTimeSubject = new TextView(this);
         StringBuilder stringTimeSubject = new StringBuilder("c ");
         stringTimeSubject.append(subject.byteStartWeek.toString());
-        stringTimeSubject.append(" по ");
+        stringTimeSubject.append(" РїРѕ ");
         stringTimeSubject.append(subject.byteEndWeek.toString());
 
         switch (subject.weekType) {
             case even:
-                stringTimeSubject.append(" по четным, ");
+                stringTimeSubject.append(" РїРѕ С‡РµС‚РЅС‹Рј, ");
                 break;
             case noteven:
-                stringTimeSubject.append(" по нечетным, ");
+                stringTimeSubject.append(" РїРѕ РЅРµС‡РµС‚РЅС‹Рј, ");
                 break;
             case every:
-                stringTimeSubject.append(" еженедельно, ");
+                stringTimeSubject.append(" РµР¶РµРЅРµРґРµР»СЊРЅРѕ, ");
                 break;
         }
 
@@ -407,7 +407,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
         tableLayout.addView(tableRowTimeSubject);
 
 
-        // Выводим место занятия и преподавателя
+        // Р’С‹РІРѕРґРёРј РјРµСЃС‚Рѕ Р·Р°РЅСЏС‚РёСЏ Рё РїСЂРµРїРѕРґР°РІР°С‚РµР»СЏ
         TableRow tableRowLocationTeacher = new TableRow(this);
         tableRowLocationTeacher.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewLocationTeacher = new TextView(this);
@@ -419,7 +419,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
         tableLayout.addView(tableRowLocationTeacher);
 
 
-        // Выводим разделитель
+        // Р’С‹РІРѕРґРёРј СЂР°Р·РґРµР»РёС‚РµР»СЊ
         TableRow tableRowEmpty = new TableRow(this);
         tableRowEmpty.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         tableRowEmpty.setGravity(Gravity.CENTER);
@@ -432,18 +432,18 @@ public class chsu_view extends Activity {//implements OnTouchListener
     }
 
 
-    // Показываем данные
+    // РџРѕРєР°Р·С‹РІР°РµРј РґР°РЅРЅС‹Рµ
     public void ShowData(EnumType type) {
         try {
             setContentView(R.layout.scrolltable);
 
-            // Находим слой таблицы для работы с ним
+            // РќР°С…РѕРґРёРј СЃР»РѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј
             TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutStudent);
 //            tableLayout.setOnTouchListener(this) ;
 
             ArrayList<String> listDaysOfWeek = new ArrayList<String>();
 
-            // Выводим номер недели, дату, элементы управления
+            // Р’С‹РІРѕРґРёРј РЅРѕРјРµСЂ РЅРµРґРµР»Рё, РґР°С‚Сѓ, СЌР»РµРјРµРЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ
             if (type.equals(EnumType.week)) {
                 TableRow tableRowCurrentWeek = new TableRow(this);
                 tableRowCurrentWeek.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -471,7 +471,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 textViewCurrentWeek.setGravity(Gravity.CENTER);
                 textViewCurrentWeek.setPadding(5, 5, 5, 5);
                 StringBuilder string = new StringBuilder(byteCurrentWeek.toString());
-                string.append(" неделя");
+                string.append(" РЅРµРґРµР»СЏ");
                 textViewCurrentWeek.setText(string.toString());
                 linearLayout.addView(textViewCurrentWeek, 1);
 
@@ -491,7 +491,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 tableRowCurrentWeek.addView(linearLayout);
                 tableLayout.addView(tableRowCurrentWeek);
             }
-            // Выводим дату, если расписание на день
+            // Р’С‹РІРѕРґРёРј РґР°С‚Сѓ, РµСЃР»Рё СЂР°СЃРїРёСЃР°РЅРёРµ РЅР° РґРµРЅСЊ
             else if (type.equals(EnumType.date)) {
                 TableRow tableRowCurrentDate = new TableRow(this);
                 tableRowCurrentDate.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -525,7 +525,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 string.append(String.valueOf(dateCurrentDate.getYear() + 1900));
                 string.append(", ");
                 string.append(String.valueOf(byteCurrentWeek));
-                string.append(" нед.");
+                string.append(" РЅРµРґ.");
                 textViewCurrentDate.setText(string.toString());
                 linearLayout.addView(textViewCurrentDate, 1);
 
@@ -546,7 +546,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 tableLayout.addView(tableRowCurrentDate);
             }
 
-            // Выводим в цикле все элементы предметов, создавая для них элементы интерфейса
+            // Р’С‹РІРѕРґРёРј РІ С†РёРєР»Рµ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РїСЂРµРґРјРµС‚РѕРІ, СЃРѕР·РґР°РІР°СЏ РґР»СЏ РЅРёС… СЌР»РµРјРµРЅС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
             for (TSubject subject : listSubjects) {
                 boolean isAll = type.equals(EnumType.all);
                 boolean isWeek = type.equals(EnumType.week);
@@ -559,7 +559,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
                 if (isAll || (isWeek && isCorrectWeekRange && isCorrectWeek) || (isDate && isCorrectWeekRange && isCorrectWeek && isCorrectDay)) {
 
-                    // Выводим день недели
+                    // Р’С‹РІРѕРґРёРј РґРµРЅСЊ РЅРµРґРµР»Рё
                     if (!listDaysOfWeek.contains(subject.stringDayOfWeek)) {
                         TableRow tableRowDayOfWeek = new TableRow(this);
                         tableRowDayOfWeek.setGravity(Gravity.CENTER);
@@ -585,36 +585,36 @@ public class chsu_view extends Activity {//implements OnTouchListener
     }
 
 
-    // Удаляем существующие элементы управления
+    // РЈРґР°Р»СЏРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ СЌР»РµРјРµРЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ
     public void Clear() {
-        // Находим слой таблицы для работы с ним
+        // РќР°С…РѕРґРёРј СЃР»РѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutStudent);
         tableLayout.removeAllViews();
     }
 
 
-    // Получение номера учебной недели
+    // РџРѕР»СѓС‡РµРЅРёРµ РЅРѕРјРµСЂР° СѓС‡РµР±РЅРѕР№ РЅРµРґРµР»Рё
     public byte GetWeek(Date date) {
-        // Задаем точку отсчета: если посленовогодняя дата, то устанавливаем 1 сентября предыдущего года
+        // Р—Р°РґР°РµРј С‚РѕС‡РєСѓ РѕС‚СЃС‡РµС‚Р°: РµСЃР»Рё РїРѕСЃР»РµРЅРѕРІРѕРіРѕРґРЅСЏСЏ РґР°С‚Р°, С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј 1 СЃРµРЅС‚СЏР±СЂСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°
         Date fromday = new Date(date.getMonth() < 8 ? date.getYear() - 1 : date.getYear(), 8, 1);
 
         long longBeetweenDays = date.getTime() - fromday.getTime();
-        // Определяем длину первой недели, чтобы вычесть ее из общей суммы для целого расчета
+        // РћРїСЂРµРґРµР»СЏРµРј РґР»РёРЅСѓ РїРµСЂРІРѕР№ РЅРµРґРµР»Рё, С‡С‚РѕР±С‹ РІС‹С‡РµСЃС‚СЊ РµРµ РёР· РѕР±С‰РµР№ СЃСѓРјРјС‹ РґР»СЏ С†РµР»РѕРіРѕ СЂР°СЃС‡РµС‚Р°
         long longTimeOfFirstWeek = ((7 - (fromday.getDay() == 0 ? 6 : fromday.getDay() - 1)) * MILLISECONDS_PER_DAY);
-        // Если нужная дата меньше длины первой недели, то это первая неделя, иначе же высчитываем
+        // Р•СЃР»Рё РЅСѓР¶РЅР°СЏ РґР°С‚Р° РјРµРЅСЊС€Рµ РґР»РёРЅС‹ РїРµСЂРІРѕР№ РЅРµРґРµР»Рё, С‚Рѕ СЌС‚Рѕ РїРµСЂРІР°СЏ РЅРµРґРµР»СЏ, РёРЅР°С‡Рµ Р¶Рµ РІС‹СЃС‡РёС‚С‹РІР°РµРј
         //byte byteWeekNum = (byte) (longBeetweenDays < longTimeOfFirstWeek ? 1 : ((longBeetweenDays - longTimeOfFirstWeek) / (MILLISECONDS_PER_WEEK) + 2));
 
-        // Попытка реализовать отсчет недель с 0
+        // РџРѕРїС‹С‚РєР° СЂРµР°Р»РёР·РѕРІР°С‚СЊ РѕС‚СЃС‡РµС‚ РЅРµРґРµР»СЊ СЃ 0
         byte byteWeekNum = (byte) (longBeetweenDays < longTimeOfFirstWeek ? 0 : ((longBeetweenDays - longTimeOfFirstWeek) / (MILLISECONDS_PER_WEEK) + 1));
 
         return byteWeekNum;
     }
 
-    // Устанавливаем требуемую дату
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚СЂРµР±СѓРµРјСѓСЋ РґР°С‚Сѓ
     public void ChangeDate(long time) {
-        // Инициализируем переменную изменения настроек
+        // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РёР·РјРµРЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє
         SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        // Занесение значения даты в настройки приложения
+        // Р—Р°РЅРµСЃРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РґР°С‚С‹ РІ РЅР°СЃС‚СЂРѕР№РєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
         SettingsEditor.putLong("longCurrentDate", time);
         SettingsEditor.commit();
 
@@ -622,14 +622,14 @@ public class chsu_view extends Activity {//implements OnTouchListener
         byteCurrentWeek = GetWeek(dateCurrentDate);
     }
 
-    // Устанавливаем требуемый номер недели
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚СЂРµР±СѓРµРјС‹Р№ РЅРѕРјРµСЂ РЅРµРґРµР»Рё
     public void ChangeWeek(byte week) {
-        // Задаем точку отсчета: если посленовогодняя дата, то устанавливаем 1 сентября предыдущего года
+        // Р—Р°РґР°РµРј С‚РѕС‡РєСѓ РѕС‚СЃС‡РµС‚Р°: РµСЃР»Рё РїРѕСЃР»РµРЅРѕРІРѕРіРѕРґРЅСЏСЏ РґР°С‚Р°, С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј 1 СЃРµРЅС‚СЏР±СЂСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°
         Date fromday = new Date(dateCurrentDate.getMonth() < 8 ? dateCurrentDate.getYear() - 1 : dateCurrentDate.getYear(), 8, 1);
-        // Определяем длину первой недели, чтобы вычесть ее из общей суммы для целого расчета
+        // РћРїСЂРµРґРµР»СЏРµРј РґР»РёРЅСѓ РїРµСЂРІРѕР№ РЅРµРґРµР»Рё, С‡С‚РѕР±С‹ РІС‹С‡РµСЃС‚СЊ РµРµ РёР· РѕР±С‰РµР№ СЃСѓРјРјС‹ РґР»СЏ С†РµР»РѕРіРѕ СЂР°СЃС‡РµС‚Р°
         long longTimeOfFirstWeek = ((7 - (fromday.getDay() == 0 ? 6 : fromday.getDay() - 1)) * MILLISECONDS_PER_DAY + MILLISECONDS_PER_DAY / 4);
         //long longNewDate = ( week == 1 ? fromday.getTime() : fromday.getTime() + longTimeOfFirstWeek + (week - 2) * MILLISECONDS_PER_WEEK );
-        // Попытка реализовать отсчет недель с 0
+        // РџРѕРїС‹С‚РєР° СЂРµР°Р»РёР·РѕРІР°С‚СЊ РѕС‚СЃС‡РµС‚ РЅРµРґРµР»СЊ СЃ 0
         long longNewDate = (week == 0 ? fromday.getTime() : fromday.getTime() + longTimeOfFirstWeek + (week - 1) * MILLISECONDS_PER_WEEK);
         ChangeDate(longNewDate);
     }

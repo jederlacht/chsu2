@@ -28,7 +28,7 @@ import android.widget.TextView;
 public class chsu_exam_view extends Activity {
 
 
-    // Объявление класса предмета
+    // РћР±СЉСЏРІР»РµРЅРёРµ РєР»Р°СЃСЃР° РїСЂРµРґРјРµС‚Р°
     public class TExam implements Comparable<Object> {
         public Date dateDateExam;
         public String stringDayOfWeek;
@@ -67,11 +67,11 @@ public class chsu_exam_view extends Activity {
 
         @Override
         protected void onPreExecute() {
-            // Вначале мы покажем пользователю ProgressDialog
-            // чтобы он понимал что началась загрузка
-            // этот метод выполняется в UI потоке
+            // Р’РЅР°С‡Р°Р»Рµ РјС‹ РїРѕРєР°Р¶РµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ ProgressDialog
+            // С‡С‚РѕР±С‹ РѕРЅ РїРѕРЅРёРјР°Р» С‡С‚Рѕ РЅР°С‡Р°Р»Р°СЃСЊ Р·Р°РіСЂСѓР·РєР°
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             spinner = new ProgressDialog(chsu_exam_view.this);
-            spinner.setMessage("Загрузка расписания...");
+            spinner.setMessage("Р—Р°РіСЂСѓР·РєР° СЂР°СЃРїРёСЃР°РЅРёСЏ...");
             spinner.show();
 
 
@@ -80,43 +80,43 @@ public class chsu_exam_view extends Activity {
         @Override
         protected Void doInBackground(Void... text) {
 
-            // Объявляем соединение и буфер для данных
+            // РћР±СЉСЏРІР»СЏРµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё Р±СѓС„РµСЂ РґР»СЏ РґР°РЅРЅС‹С…
             HttpURLConnection UrlConnection = null;
             BufferedReader BufferReader = null;
             try {
-                // Указываем адрес
+                // РЈРєР°Р·С‹РІР°РµРј Р°РґСЂРµСЃ
                 URL url = new URL("http://rasp.chsu.ru/_student.php");
-                // Устанавливаем соединение и параметры
+                // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРµРґРёРЅРµРЅРёРµ Рё РїР°СЂР°РјРµС‚СЂС‹
                 UrlConnection = (HttpURLConnection) url.openConnection();
                 UrlConnection.setRequestProperty("METHOD", "POST");
                 UrlConnection.setDoInput(true);
                 UrlConnection.setDoOutput(true);
 
-                // Устанавливаем переменную с передаваемыми параметрами
+                // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ СЃ РїРµСЂРµРґР°РІР°РµРјС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
                 StringBuilder ContentParametres = new StringBuilder();
                 ContentParametres.append("gr=").append(stringCurrentGroup);
                 ContentParametres.append("&ss=").append(stringCurrentTerm);
-                ContentParametres.append("&mode=").append("Расписание экзаменов");
+                ContentParametres.append("&mode=").append("Р Р°СЃРїРёСЃР°РЅРёРµ СЌРєР·Р°РјРµРЅРѕРІ");
 
-                // Добавляем параметры к исходящему потоку
+                // Р”РѕР±Р°РІР»СЏРµРј РїР°СЂР°РјРµС‚СЂС‹ Рє РёСЃС…РѕРґСЏС‰РµРјСѓ РїРѕС‚РѕРєСѓ
                 OutputStream OutputStreamParam = UrlConnection.getOutputStream();
                 OutputStreamParam.write(ContentParametres.toString().getBytes("CP1251"));
                 OutputStreamParam.close();
 
 
-                // Получаем запрошенную страницу в буфер
+                // РџРѕР»СѓС‡Р°РµРј Р·Р°РїСЂРѕС€РµРЅРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІ Р±СѓС„РµСЂ
                 BufferReader = new BufferedReader(new InputStreamReader(UrlConnection.getInputStream(),
                         "windows-1251"), 4096);
 
-                // Создаем строку для контента
+                // РЎРѕР·РґР°РµРј СЃС‚СЂРѕРєСѓ РґР»СЏ РєРѕРЅС‚РµРЅС‚Р°
                 String InputLine = "";
 
 
                 while ((InputLine = BufferReader.readLine()) != null) {
-                    // Проверяем, нет ли элемента строки в строке документа исходного
+                    // РџСЂРѕРІРµСЂСЏРµРј, РЅРµС‚ Р»Рё СЌР»РµРјРµРЅС‚Р° СЃС‚СЂРѕРєРё РІ СЃС‚СЂРѕРєРµ РґРѕРєСѓРјРµРЅС‚Р° РёСЃС…РѕРґРЅРѕРіРѕ
                     if (InputLine.contains("bgcolor=#ddddee>&nbsp;")) {
 
-                        // Создаем объект предмета и заполняем его поля
+                        // РЎРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РїСЂРµРґРјРµС‚Р° Рё Р·Р°РїРѕР»РЅСЏРµРј РµРіРѕ РїРѕР»СЏ
                         TExam subject = new TExam();
 
                         Pattern pattern = Pattern.compile("&nbsp;(\\d+).\\d+.\\d+&nbsp;");
@@ -188,7 +188,7 @@ public class chsu_exam_view extends Activity {
                         Log.e("GetSite", Log.getStackTraceString(e));
                     }
                 }
-                // Разрываем подключение
+                // Р Р°Р·СЂС‹РІР°РµРј РїРѕРґРєР»СЋС‡РµРЅРёРµ
                 if (UrlConnection != null) {
                     ((HttpURLConnection) UrlConnection).disconnect();
                 }
@@ -198,8 +198,8 @@ public class chsu_exam_view extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
-            // Загрузка закончена. Закроем ProgressDialog.
-            // этот метод выполняется в UI потоке
+            // Р—Р°РіСЂСѓР·РєР° Р·Р°РєРѕРЅС‡РµРЅР°. Р—Р°РєСЂРѕРµРј ProgressDialog.
+            // СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ UI РїРѕС‚РѕРєРµ
             ShowData();
             spinner.dismiss();
         }
@@ -234,13 +234,13 @@ public class chsu_exam_view extends Activity {
     }
 
 
-    // Показываем предмет
+    // РџРѕРєР°Р·С‹РІР°РµРј РїСЂРµРґРјРµС‚
     public void ShowExam(TExam subject) {
 
-        // Находим слой таблицы для работы с ним
+        // РќР°С…РѕРґРёРј СЃР»РѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutStudent);
 
-        // Выводим дату и время
+        // Р’С‹РІРѕРґРёРј РґР°С‚Сѓ Рё РІСЂРµРјСЏ
         TableRow tableRowTimeSubject = new TableRow(this);
         tableRowTimeSubject.setGravity(Gravity.CENTER);
         tableRowTimeSubject.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -258,7 +258,7 @@ public class chsu_exam_view extends Activity {
         tableRowTimeSubject.addView(textViewTimeSubject, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         tableLayout.addView(tableRowTimeSubject);
 
-        // Выводим день недели
+        // Р’С‹РІРѕРґРёРј РґРµРЅСЊ РЅРµРґРµР»Рё
         TableRow tableRowDayOfWeek = new TableRow(this);
         tableRowDayOfWeek.setGravity(Gravity.CENTER);
         tableRowDayOfWeek.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -269,7 +269,7 @@ public class chsu_exam_view extends Activity {
         tableRowDayOfWeek.addView(textViewDayOfWeek);
         tableLayout.addView(tableRowDayOfWeek);
 
-        // Выводим название предмета
+        // Р’С‹РІРѕРґРёРј РЅР°Р·РІР°РЅРёРµ РїСЂРµРґРјРµС‚Р°
         TableRow tableRowSubject = new TableRow(this);
         tableRowSubject.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewSubject = new TextView(this);
@@ -278,7 +278,7 @@ public class chsu_exam_view extends Activity {
         tableLayout.addView(tableRowSubject);
 
 
-        // Выводим место занятия и преподавателя
+        // Р’С‹РІРѕРґРёРј РјРµСЃС‚Рѕ Р·Р°РЅСЏС‚РёСЏ Рё РїСЂРµРїРѕРґР°РІР°С‚РµР»СЏ
         TableRow tableRowLocationTeacher = new TableRow(this);
         tableRowLocationTeacher.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewLocationTeacher = new TextView(this);
@@ -289,7 +289,7 @@ public class chsu_exam_view extends Activity {
         tableRowLocationTeacher.addView(textViewLocationTeacher, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         tableLayout.addView(tableRowLocationTeacher);
 
-        // Выводим разделитель
+        // Р’С‹РІРѕРґРёРј СЂР°Р·РґРµР»РёС‚РµР»СЊ
         TableRow tableRowEmpty = new TableRow(this);
         tableRowEmpty.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         tableRowEmpty.setGravity(Gravity.CENTER);
@@ -302,12 +302,12 @@ public class chsu_exam_view extends Activity {
     }
 
 
-    // Показываем данные
+    // РџРѕРєР°Р·С‹РІР°РµРј РґР°РЅРЅС‹Рµ
     public void ShowData() {
         try {
             setContentView(R.layout.scrolltable);
 
-            // Выводим в цикле все элементы предметов, создавая для них элементы интерфейса
+            // Р’С‹РІРѕРґРёРј РІ С†РёРєР»Рµ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РїСЂРµРґРјРµС‚РѕРІ, СЃРѕР·РґР°РІР°СЏ РґР»СЏ РЅРёС… СЌР»РµРјРµРЅС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
             for (TExam subject : listExams) {
 
                 ShowExam(subject);
