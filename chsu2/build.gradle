@@ -7,14 +7,12 @@ buildscript {
     }
 }
 apply plugin: 'android'
-
 repositories {
     mavenCentral()
 }
-
 android {
-    compileSdkVersion 17
-    buildToolsVersion "19.0.0"
+    compileSdkVersion 19
+    buildToolsVersion '19.0.0'
 
     defaultConfig {
         minSdkVersion 14
@@ -22,3 +20,6 @@ android {
     }
 }
 
+dependencies {
+    compile files('libs/libGoogleAnalyticsV2.jar')
+}
