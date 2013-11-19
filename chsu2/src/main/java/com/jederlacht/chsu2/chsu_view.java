@@ -34,6 +34,8 @@ import android.widget.TextView;
 import android.widget.SpinnerAdapter;
 import android.widget.ArrayAdapter;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 
 public class chsu_view extends Activity {//implements OnTouchListener
 
@@ -242,8 +244,13 @@ public class chsu_view extends Activity {//implements OnTouchListener
     @Override
     public void onStart() {
         super.onStart();
-        //Clear();
 
+        EasyTracker.getInstance().activityStart(this);  // Add this method.
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);  // Add this method.
     }
 
     /**

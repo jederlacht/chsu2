@@ -10,6 +10,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 
 public class chsu_preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     SharedPreferences.Editor SettingsEditor;
@@ -40,6 +42,17 @@ public class chsu_preferences extends PreferenceActivity implements OnSharedPref
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        EasyTracker.getInstance().activityStart(this);  // Add this method.
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);  // Add this method.
+    }
 
     @Override
     protected void onResume() {

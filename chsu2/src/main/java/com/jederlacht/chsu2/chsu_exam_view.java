@@ -24,6 +24,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 
 public class chsu_exam_view extends Activity {
 
@@ -229,10 +231,16 @@ public class chsu_exam_view extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().activityStart(this);  // Add this method.
         new MyTask().execute();
         //  ShowData();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);  // Add this method.
+    }
 
     // Показываем предмет
     public void ShowExam(TExam subject) {
