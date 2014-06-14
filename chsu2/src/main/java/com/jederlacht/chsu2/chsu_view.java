@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -340,7 +341,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
         menuItem.setIcon(android.R.drawable.ic_menu_my_calendar);
 
 
-            getMenuInflater().inflate(R.menu.main, menu);
+           // getMenuInflater().inflate(R.menu.modes, menu);
 
 
         return super.onCreateOptionsMenu(menu);
