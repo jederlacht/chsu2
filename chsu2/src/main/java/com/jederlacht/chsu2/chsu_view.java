@@ -265,7 +265,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
         // Читаем настройки запомненные
         SharedPreferences SavedSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        final SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        //final SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         ChangeDate(SavedSettings.getLong("longCurrentDate", new Date().getTime()));
         currentTypeView = EnumType.values()[SavedSettings.getInt("TypeView", 0)];
 
