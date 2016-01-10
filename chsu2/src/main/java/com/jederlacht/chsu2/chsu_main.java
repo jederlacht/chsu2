@@ -27,7 +27,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.*;
-import com.google.analytics.tracking.android.EasyTracker;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 
 
@@ -76,103 +80,39 @@ public class chsu_main extends Activity {
             //GetDataStart();
             // тут мы делаем основную работу по загрузке данных
             // этот метод выполяется в другом потоке
-            // Объявляем соединение и буфер для данных
-            HttpURLConnection UrlConnection = null;
-            BufferedReader BufferReader = null;
-
-
+            Document doc = null;
             try {
 
-                //Element e = doc.getElementsByAttribute("font[size$=\"5\"").first();
-                //week=e.text();
+                try {
+                    URL url = new URL("http://rasp.chsu.ru/_student.php");
+                    doc = Jsoup.parse(url, 70000);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+                //определяем неделю
+                Element e = doc.select("#Layer2 > center > b > font").first();
+                ;
+                week = e.text();
+                //определяем дату
+                Element e1 = doc.select("#Layer2 > center > b").first();
+                Pattern p = Pattern.compile("(\\d{2}.\\d{2}.\\d{4})");
+                Matcher m = p.matcher(e1.text());
+                if (m.find()) {
+                    day = m.group(1);
+                }
+                //заполняем список групп
+                Elements groups = doc.select("body > form > select:nth-child(1) > option");
+
+                for (Element el : groups) {
+                    arrayStringCurrentGroups.add(el.text());
+                }
 
 
-                // Указываем адрес
-                URL url = new URL("http://rasp.chsu.ru/_student.php");
-                // Устанавливаем соединение и параметры
-                UrlConnection = (HttpURLConnection) url.openConnection();
-                UrlConnection.setRequestProperty("METHOD", "POST");
-                UrlConnection.setDoInput(true);
-                UrlConnection.setDoOutput(true);
-
-
-                // Получаем запрошенную страницу в буфер
-                BufferReader = new BufferedReader(new InputStreamReader(UrlConnection.getInputStream(),
-                        "windows-1251"), 4096);
-
-                // Создаем строку для контента
-                String InputLine = "";
-                // Заполняем переменную контентом
-                while ((InputLine = BufferReader.readLine()) != null) {
-
-                    // Проверяем, нет ли элемента строки в строке документа исходного
-                    if (InputLine.contains("учебная неделя")) {
-
-                        Pattern pattern = Pattern.compile(">(\\d+)<");
-                        Matcher matcher = pattern.matcher(InputLine);
-
-                        if(matcher.find())
-                        {
-                            week = matcher.group(1);
-                            //StringBuilder string = new StringBuilder(week);
-                            //string.append(" неделя");
-
-
-                        }
-                    }
-
-                    // Проверяем, нет ли элемента строки в строке документа исходного
-                    if (InputLine.contains("Сегодня")) {
-
-                        Pattern pattern = Pattern.compile("(\\d{2}.\\d{2}.\\d{4})");
-                        Matcher matcher = pattern.matcher(InputLine);
-
-                        if(matcher.find())
-                        {
-                            day = matcher.group(1);
-
-                        }
-                    }
-
-                    // Составляем список групп
-                    if (InputLine.contains("option")) {
-                        Pattern pattern = Pattern.compile("value=\"(\\w+\\(?\\w?\\)?\\w?-\\w+)\"");
-                        Matcher matcher = pattern.matcher(InputLine);
-                        Pattern pattern1 = Pattern.compile("value=\"(\\d{6}.\\d{2}-\\d{2}-\\w+)\"");
-                        Matcher matcher1 = pattern1.matcher(InputLine);
-                        if(matcher.find())
-                        {
-                            String group = null;
-                            group = matcher.group(1).toString();
-                            arrayStringCurrentGroups.add(group);
-                        }
-                        else if(matcher1.find())
-                        {
-                            String group = null;
-                            group = matcher1.group(1).toString();
-                            arrayStringCurrentGroups.add(group);
-                        }
-
-                    }
-
-                  }
 
             } catch (Exception e) {
                 spinner.setMessage(Log.getStackTraceString(e));
                 Log.e("GetDataStart", Log.getStackTraceString(e));
-            } finally {
-                if (BufferReader != null) {
-                    try {
-                        BufferReader.close();
-                    } catch (IOException e) {
-                        spinner.setMessage(Log.getStackTraceString(e));
-                        Log.e("GetSite", Log.getStackTraceString(e));
-                    }
-                }
-                // Разрываем подключение
-                if (UrlConnection != null) {
-                    ((HttpURLConnection)UrlConnection).disconnect();
-                }
             }
 
             return null;
@@ -269,12 +209,10 @@ public class chsu_main extends Activity {
     public void onStart() {
         super.onStart();
 
-        EasyTracker.getInstance().activityStart(this);  // Add this method.
     }
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);  // Add this method.
     }
 
     @Override

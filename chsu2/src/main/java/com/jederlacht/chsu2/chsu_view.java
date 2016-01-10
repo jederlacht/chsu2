@@ -35,7 +35,11 @@ import android.widget.TextView;
 import android.widget.SpinnerAdapter;
 import android.widget.ArrayAdapter;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 
 
 public class chsu_view extends Activity {//implements OnTouchListener
@@ -113,8 +117,22 @@ public class chsu_view extends Activity {//implements OnTouchListener
             // Объявляем соединение и буфер для данных
             HttpURLConnection UrlConnection = null;
             BufferedReader BufferReader = null;
+            Document doc = null;
             try {
-                // Указываем адрес
+                try {
+                    doc = Jsoup.connect("https://rasp.chsu.ru/_student.php")
+                            .data("gr", stringCurrentGroup)
+                            .data("ss", stringCurrentTerm)
+                            .data("mode", "Расписание занятий")
+                            .postDataCharset("CP1251")
+                            .post();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+                Elements subjects = doc.select("body > div:nth-child(7) > table > tbody > tr");
+
                 URL url = new URL("http://rasp.chsu.ru/_student.php");
                 // Устанавливаем соединение и параметры
                 UrlConnection = (HttpURLConnection) url.openConnection();
@@ -246,12 +264,10 @@ public class chsu_view extends Activity {//implements OnTouchListener
     public void onStart() {
         super.onStart();
 
-        EasyTracker.getInstance().activityStart(this);  // Add this method.
     }
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);  // Add this method.
     }
 
     /**
@@ -354,30 +370,32 @@ public class chsu_view extends Activity {//implements OnTouchListener
         SharedPreferences.Editor SettingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         if (item.getItemId() == 0) {
             currentTypeView = EnumType.all;
-            Clear();
+
             actionBar.setTitle("Расписание");
-            ShowData(currentTypeView);
+
 
         } else if (item.getItemId() == 1) {
             currentTypeView = EnumType.week;
-            Clear();
+
             actionBar.setTitle("Расписание на неделю");
-            ShowData(currentTypeView);
+
         } else if (item.getItemId() == 2) {
             currentTypeView = EnumType.date;
-            Clear();
+
             actionBar.setTitle("Расписание на день");
-            ShowData(currentTypeView);
+
         } else if (item.getItemId() == 3) {
             currentTypeView = EnumType.date;
-            Clear();
+
             actionBar.setTitle("Расписание на сегодня");
             ChangeDate(new Date().getTime());
-            ShowData(currentTypeView);
+
         }
+
         // Занесение значения режима работы в настройки
         SettingsEditor.putInt("TypeView", currentTypeView.ordinal());
         SettingsEditor.commit();
+        ShowData(currentTypeView);
         return super.onOptionsItemSelected(item);
     }
 
@@ -453,7 +471,9 @@ public class chsu_view extends Activity {//implements OnTouchListener
 
     // Показываем данные
     public void ShowData(EnumType type) {
+
         try {
+            Clear();
             setContentView(R.layout.scrolltable);
 
             // Находим слой таблицы для работы с ним
