@@ -44,7 +44,7 @@ public class chsu_main extends Activity {
     Button BtnOpenTableExams;
 
     SharedPreferences.Editor SettingsEditor;
-    ArrayList<String> arrayStringCurrentGroups = new ArrayList<String>();
+    ArrayList<String> arrayStringCurrentGroups = new ArrayList<>();
     String stringCurrentGroup;
     String stringCurrentTerm;
     Byte byteCurrentWeek;
@@ -92,7 +92,6 @@ public class chsu_main extends Activity {
                 }
                 //определяем неделю
                 Element e = doc.select("#Layer2 > center > b > font").first();
-                ;
                 week = e.text();
                 //определяем дату
                 Element e1 = doc.select("#Layer2 > center > b").first();
@@ -282,7 +281,7 @@ public class chsu_main extends Activity {
                     "windows-1251"), 4096);
 
             // Создаем строку для контента
-            String InputLine = "";
+            String InputLine;
             // Заполняем переменную контентом
             while ((InputLine = BufferReader.readLine()) != null) {
 
@@ -291,7 +290,7 @@ public class chsu_main extends Activity {
 
                     Pattern pattern = Pattern.compile(">(\\d+)<");
                     Matcher matcher = pattern.matcher(InputLine);
-                    String week = null;
+                    String week;
                     if(matcher.find())
                     {
                         week = matcher.group(1);
@@ -308,7 +307,7 @@ public class chsu_main extends Activity {
 
                     Pattern pattern = Pattern.compile("(\\d{2}.\\d{2}.\\d{4})");
                     Matcher matcher = pattern.matcher(InputLine);
-                    String day = null;
+                    String day;
                     if(matcher.find())
                     {
                         day = matcher.group(1);
@@ -323,8 +322,8 @@ public class chsu_main extends Activity {
                     Matcher matcher = pattern.matcher(InputLine);
                     if(matcher.find())
                     {
-                        String group = null;
-                        group = matcher.group(1).toString();
+                        String group;
+                        group = matcher.group(1);
                         arrayStringCurrentGroups.add(group);
                     }
 
@@ -344,7 +343,7 @@ public class chsu_main extends Activity {
             }
             // Разрываем подключение
             if (UrlConnection != null) {
-                ((HttpURLConnection)UrlConnection).disconnect();
+                UrlConnection.disconnect();
             }
         }
     }

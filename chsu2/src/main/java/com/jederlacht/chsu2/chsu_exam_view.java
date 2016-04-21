@@ -60,7 +60,7 @@ public class chsu_exam_view extends Activity {
     Byte byteCurrentWeek;
     Date dateCurrentDate;
 
-    ArrayList<TExam> listExams = new ArrayList<TExam>();
+    ArrayList<TExam> listExams = new ArrayList<>();
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -94,14 +94,13 @@ public class chsu_exam_view extends Activity {
                 UrlConnection.setDoOutput(true);
 
                 // Устанавливаем переменную с передаваемыми параметрами
-                StringBuilder ContentParametres = new StringBuilder();
-                ContentParametres.append("gr=").append(stringCurrentGroup);
-                ContentParametres.append("&ss=").append(stringCurrentTerm);
-                ContentParametres.append("&mode=").append("Расписание экзаменов");
+                String ContentParametres = "gr=" + stringCurrentGroup +
+                        "&ss=" + stringCurrentTerm +
+                        "&mode=" + "Расписание экзаменов";
 
                 // Добавляем параметры к исходящему потоку
                 OutputStream OutputStreamParam = UrlConnection.getOutputStream();
-                OutputStreamParam.write(ContentParametres.toString().getBytes("CP1251"));
+                OutputStreamParam.write(ContentParametres.getBytes("CP1251"));
                 OutputStreamParam.close();
 
 
@@ -191,7 +190,7 @@ public class chsu_exam_view extends Activity {
                 }
                 // Разрываем подключение
                 if (UrlConnection != null) {
-                    ((HttpURLConnection) UrlConnection).disconnect();
+                    UrlConnection.disconnect();
                 }
             }
             return null;
@@ -252,14 +251,13 @@ public class chsu_exam_view extends Activity {
         TextView textViewTimeSubject = new TextView(this);
         textViewTimeSubject.setGravity(Gravity.CENTER);
         textViewTimeSubject.setTextColor(Color.BLUE);
-        StringBuilder stringTimeSubject = new StringBuilder(String.valueOf(subject.dateDateExam.getDate()));
-        stringTimeSubject.append(".");
-        stringTimeSubject.append(String.valueOf(subject.dateDateExam.getMonth() + 1));
-        stringTimeSubject.append(".");
-        stringTimeSubject.append(String.valueOf(subject.dateDateExam.getYear() + 1900));
-        stringTimeSubject.append(", ");
-        stringTimeSubject.append(subject.stringTime);
-        textViewTimeSubject.setText(stringTimeSubject.toString());
+        String stringTimeSubject = String.valueOf(subject.dateDateExam.getDate()) + "." +
+                String.valueOf(subject.dateDateExam.getMonth() + 1) +
+                "." +
+                String.valueOf(subject.dateDateExam.getYear() + 1900) +
+                ", " +
+                subject.stringTime;
+        textViewTimeSubject.setText(stringTimeSubject);
         tableRowTimeSubject.addView(textViewTimeSubject, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         tableLayout.addView(tableRowTimeSubject);
 
@@ -287,10 +285,9 @@ public class chsu_exam_view extends Activity {
         TableRow tableRowLocationTeacher = new TableRow(this);
         tableRowLocationTeacher.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewLocationTeacher = new TextView(this);
-        StringBuilder stringLocationTeacher = new StringBuilder(subject.stringLocation);
-        stringLocationTeacher.append(", ");
-        stringLocationTeacher.append(subject.stringTeacher);
-        textViewLocationTeacher.setText(stringLocationTeacher.toString());
+        String stringLocationTeacher = subject.stringLocation + ", " +
+                subject.stringTeacher;
+        textViewLocationTeacher.setText(stringLocationTeacher);
         tableRowLocationTeacher.addView(textViewLocationTeacher, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         tableLayout.addView(tableRowLocationTeacher);
 

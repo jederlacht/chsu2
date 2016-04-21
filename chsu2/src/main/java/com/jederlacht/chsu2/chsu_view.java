@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -35,24 +36,30 @@ import android.widget.TextView;
 import android.widget.SpinnerAdapter;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
-
 public class chsu_view extends Activity {//implements OnTouchListener
 
     static final long MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
     static final long MILLISECONDS_PER_WEEK = 7 * MILLISECONDS_PER_DAY;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     // Перечисление типов показа расписания
     enum EnumType {
         all, week, date
     }
-
-    ;
 
     // Массив дней недели
     String stringsDaysOfWeek[] = {"воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"};
@@ -61,8 +68,6 @@ public class chsu_view extends Activity {//implements OnTouchListener
     enum EnumWeekType {
         even, noteven, every
     }
-
-    ;
 
     // Объявление класса предмета
     public class TSubject {
@@ -92,7 +97,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
     Byte byteCurrentWeek;
     Date dateCurrentDate;
     EnumType currentTypeView;
-    ArrayList<TSubject> listSubjects = new ArrayList<TSubject>();
+    ArrayList<TSubject> listSubjects = new ArrayList<>();
     OnNavigationListener mOnNavigationListener;
     ActionBar actionBar;
 
@@ -141,14 +146,13 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 UrlConnection.setDoOutput(true);
 
                 // Устанавливаем переменную с передаваемыми параметрами
-                StringBuilder ContentParametres = new StringBuilder();
-                ContentParametres.append("gr=").append(stringCurrentGroup);
-                ContentParametres.append("&ss=").append(stringCurrentTerm);
-                ContentParametres.append("&mode=").append("Расписание занятий");
+                String ContentParametres = "gr=" + stringCurrentGroup +
+                        "&ss=" + stringCurrentTerm +
+                        "&mode=" + "Расписание занятий";
 
                 // Добавляем параметры к исходящему потоку
                 OutputStream OutputStreamParam = UrlConnection.getOutputStream();
-                OutputStreamParam.write(ContentParametres.toString().getBytes("CP1251"));
+                OutputStreamParam.write(ContentParametres.getBytes("CP1251"));
                 OutputStreamParam.close();
 
 
@@ -204,12 +208,17 @@ public class chsu_view extends Activity {//implements OnTouchListener
                         matcher = pattern.matcher(InputLine);
                         if (matcher.find()) {
                             String typeWeek = matcher.group(1);
-                            if (typeWeek.equals("чет")) {
-                                subject.weekType = EnumWeekType.even;
-                            } else if (typeWeek.equals("нечет")) {
-                                subject.weekType = EnumWeekType.noteven;
-                            } else
-                                subject.weekType = EnumWeekType.every;
+                            switch (typeWeek) {
+                                case "чет":
+                                    subject.weekType = EnumWeekType.even;
+                                    break;
+                                case "нечет":
+                                    subject.weekType = EnumWeekType.noteven;
+                                    break;
+                                default:
+                                    subject.weekType = EnumWeekType.every;
+                                    break;
+                            }
 
                         }
 
@@ -243,7 +252,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 }
                 // Разрываем подключение
                 if (UrlConnection != null) {
-                    ((HttpURLConnection) UrlConnection).disconnect();
+                    UrlConnection.disconnect();
                 }
             }
             return null;
@@ -263,11 +272,44 @@ public class chsu_view extends Activity {//implements OnTouchListener
     @Override
     public void onStart() {
         super.onStart();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "chsu_view Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.jederlacht.chsu2/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
     }
+
     @Override
     public void onStop() {
         super.onStop();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "chsu_view Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.jederlacht.chsu2/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.disconnect();
     }
 
     /**
@@ -336,8 +378,10 @@ public class chsu_view extends Activity {//implements OnTouchListener
         new MyTask().execute();
 
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
 
 
     // Создаем меню
@@ -357,7 +401,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
         menuItem.setIcon(android.R.drawable.ic_menu_my_calendar);
 
 
-           // getMenuInflater().inflate(R.menu.modes, menu);
+        // getMenuInflater().inflate(R.menu.modes, menu);
 
 
         return super.onCreateOptionsMenu(menu);
@@ -448,10 +492,9 @@ public class chsu_view extends Activity {//implements OnTouchListener
         TableRow tableRowLocationTeacher = new TableRow(this);
         tableRowLocationTeacher.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         TextView textViewLocationTeacher = new TextView(this);
-        StringBuilder stringLocationTeacher = new StringBuilder(subject.stringLocation);
-        stringLocationTeacher.append(", ");
-        stringLocationTeacher.append(subject.stringTeacher);
-        textViewLocationTeacher.setText(stringLocationTeacher.toString());
+        String stringLocationTeacher = subject.stringLocation + ", " +
+                subject.stringTeacher;
+        textViewLocationTeacher.setText(stringLocationTeacher);
         tableRowLocationTeacher.addView(textViewLocationTeacher, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         tableLayout.addView(tableRowLocationTeacher);
 
@@ -480,7 +523,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
             TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutStudent);
 //            tableLayout.setOnTouchListener(this) ;
 
-            ArrayList<String> listDaysOfWeek = new ArrayList<String>();
+            ArrayList<String> listDaysOfWeek = new ArrayList<>();
 
             // Выводим номер недели, дату, элементы управления
             if (type.equals(EnumType.week)) {
@@ -509,9 +552,7 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 textViewCurrentWeek.setTextColor(Color.RED);
                 textViewCurrentWeek.setGravity(Gravity.CENTER);
                 textViewCurrentWeek.setPadding(5, 5, 5, 5);
-                StringBuilder string = new StringBuilder(byteCurrentWeek.toString());
-                string.append(" неделя");
-                textViewCurrentWeek.setText(string.toString());
+                textViewCurrentWeek.setText(byteCurrentWeek.toString() + " неделя");
                 linearLayout.addView(textViewCurrentWeek, 1);
 
                 Button buttonNext = new Button(this);
@@ -557,15 +598,14 @@ public class chsu_view extends Activity {//implements OnTouchListener
                 textViewCurrentDate.setTextColor(Color.RED);
                 textViewCurrentDate.setGravity(Gravity.CENTER);
                 textViewCurrentDate.setPadding(5, 5, 5, 5);
-                StringBuilder string = new StringBuilder(String.valueOf(dateCurrentDate.getDate()));
-                string.append(".");
-                string.append(String.valueOf(dateCurrentDate.getMonth() + 1));
-                string.append(".");
-                string.append(String.valueOf(dateCurrentDate.getYear() + 1900));
-                string.append(", ");
-                string.append(String.valueOf(byteCurrentWeek));
-                string.append(" нед.");
-                textViewCurrentDate.setText(string.toString());
+                String string = String.valueOf(dateCurrentDate.getDate()) + "." +
+                        String.valueOf(dateCurrentDate.getMonth() + 1) +
+                        "." +
+                        String.valueOf(dateCurrentDate.getYear() + 1900) +
+                        ", " +
+                        String.valueOf(byteCurrentWeek) +
+                        " нед.";
+                textViewCurrentDate.setText(string);
                 linearLayout.addView(textViewCurrentDate, 1);
 
                 Button buttonNext = new Button(this);

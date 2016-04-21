@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jederlacht.chsu2"
     android:versionCode="5"
     android:versionName="1.0.4" >
@@ -13,7 +14,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light">
+        android:theme="@android:style/Theme.Holo.Light"
+        tools:ignore="GoogleAppIndexingWarning">
     <activity
             android:name="com.jederlacht.chsu2.chsu_main"
             android:label="@string/app_name" >
@@ -27,7 +29,11 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name="chsu_exam_view"
             android:screenOrientation="portrait"></activity>
-        <activity android:name="chsu_preferences"></activity>
+        <activity android:name="chsu_preferences"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Android\AndroidStudioProjects\chsu2\chsu2\libs\jsoup-1.8.3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3a86e137575e4a45f5a9eec407f8135512e823a2">
+        <dex dex="C:\Android\AndroidStudioProjects\chsu2\chsu2\build\intermediates\pre-dexed\debug\jsoup-1.8.3_7bc2abd226662d21aac7b2994df914c399b42c06.jar" />
+    </item>
+
+</items>
